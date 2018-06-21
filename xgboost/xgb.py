@@ -2,8 +2,10 @@ import csv
 import xgboost as xgb
 from matplotlib import pyplot
 
+
 TRAIN_FILE = 'TRAIN_SET_FINAL.csv'
 TEST_FILE = 'TEST_SET_FINAL.csv'
+
 
 # train model
 def train(train_file, test_file):
