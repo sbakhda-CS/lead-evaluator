@@ -25,7 +25,7 @@ echo "Deploy daemon"
 cortex actions deploy cortex/generic-inquire --actionType daemon --docker ${IMAGE} --port '9091' --cmd '["--daemon"]'
 
 
-echo "Deploying Movie Ranker Skill"
+echo "Deploying Skill"
 cortex skills save -y skill.yml
 
 echo "Deploying Types"

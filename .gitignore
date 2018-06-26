@@ -1,5 +1,0 @@
-*.zip
-inquiry_inputmessage.json
-train_inputmessage.json
-
-__pycache__
