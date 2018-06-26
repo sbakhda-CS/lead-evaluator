@@ -1,0 +1,6 @@
+name: cortex-mymodel-job
+image: registry.cortex-develop.insights.ai:5000/shiksb/mymodel:latest
+command: ["--train", "--context"]
+memory: 4096
+vcpus: 1
+

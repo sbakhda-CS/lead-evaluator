@@ -1,0 +1,22 @@
+{
+    "name": "cortex/mymodel-data-type",
+    "camel": "1.0.0",
+    "title": "mymodel Data Type",
+    "parameters": [
+        {"name": "crim", "type": "number"},
+        {"name": "zn", "type": "number"},
+        {"name": "indus", "type": "number"},
+        {"name": "chas", "type": "integer"},
+        {"name": "nox", "type": "number"},
+        {"name": "rm", "type": "number"},
+        {"name": "age", "type": "number"},
+        {"name": "dis", "type": "number"},
+        {"name": "rad", "type": "number"},
+        {"name": "tax", "type": "number"},
+        {"name": "ptratio", "type": "number"},
+        {"name": "b", "type": "number"},
+        {"name": "lstat", "type": "number"},
+        {"name": "medv", "type": "number"}
+    ]
+}
+

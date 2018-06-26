@@ -1,0 +1,58 @@
+camel: 1.0.0
+name: cortex/myskill
+title: My Model Title
+description: My Model Description
+properties:
+  - name: daemon.method
+    title: Daemon method
+    description: method
+    required: true
+    type: String
+    defaultValue: POST
+  - name: daemon.path
+    title: Daemon path
+    description: path
+    required: true
+    type: String
+    defaultValue: inquire
+  - name: training_job_name
+    title: Training Job Name
+    description: The Job name for train invocation
+    required: true
+    type: String
+    defaultValue: cortex-mymodel-job
+  - name: dataset
+    title: Training Dataset name
+    description: The training Dataset name
+    required: true
+    type: String
+    defaultValue: mymodel/data
+inputs:
+  - name: train
+    title: train
+    parameters: 
+      $ref: cortex/mymodel-train-request
+    routing:
+      all:
+        action: cortex/generic-train
+        output: train
+        runtime: cortex/functions
+  - name: inquiry
+    title: inquiry
+    parameters: 
+      $ref: cortex/mymodel-inquire-request
+    routing:
+      all:
+        action: cortex/generic-inquire
+        output: inquiry
+        runtime: cortex/functions
+outputs:
+  - name: train
+    title: train
+    parameters:
+      $ref: cortex/mymodel-train-response
+  - name: inquiry
+    title: inquiry
+    parameters:
+      $ref: cortex/mymodel-inquire-response
+

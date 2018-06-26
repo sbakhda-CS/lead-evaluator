@@ -1,0 +1,30 @@
+types:
+  - name: cortex/mymodel-train-request
+    camel: 1.0.0
+    title: mymodel Train Request
+    description: mymodel Train Request
+    parameters:
+      - name: n_estimators
+        type: Integer
+      - name: min_samples_leaf
+        type: Integer
+  - name: cortex/mymodel-inquire-request
+    camel: 1.0.0
+    title: mymodel Inquiry Request
+    description: mymodel Inquiry
+    parameters:
+      - name: args
+        type: String
+  - name: cortex/mymodel-train-response
+    camel: 1.0.0
+    title: mymodel Train Response
+    parameters:
+      - name: result
+        type: String
+  - name: cortex/mymodel-inquire-response
+    camel: 1.0.0
+    title: mymodel Inquiry Response
+    parameters:
+      - name: result
+        type: String
+
