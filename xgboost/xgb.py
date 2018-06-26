@@ -19,7 +19,7 @@ def train(dtrain, dtest, max_depth=6, eta=.8, silent=1, objective='binary:logist
     # specify validations set to watch performance
     watchlist = [(dtest, 'eval'), (dtrain, 'train')]
     model = xgb.train(param, dtrain, num_round, watchlist)
-    #model = model(modelObject, dtrain)
+
     model.save_model('0001.model')
     # dump model
     model.dump_model('dump.raw.txt')
