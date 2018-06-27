@@ -2,10 +2,8 @@
 set -e
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-IMAGE=shiksb/mymodel:latest
 IMAGE_NAME=shiksb/mymodel
 VERSION=(git describe --tags --dirty --always --long)
-
 
 cd ${SCRIPT_DIR}
 
@@ -22,7 +20,7 @@ echo "Deploying function"
 cortex actions deploy cortex/generic-train --kind nodejs:8 --code build/generic-train.zip
 
 echo "Deploy daemon"
-cortex actions deploy cortex/generic-inquire --actionType daemon --docker ${IMAGE} --port '9091' --cmd '["--daemon"]'
+cortex actions deploy cortex/generic-inquire --actionType daemon --docker ${IMAGE_NAME}:latest --port '9091' --cmd '["--daemon"]'
 
 
 echo "Deploying Skill"

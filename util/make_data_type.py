@@ -3,10 +3,21 @@ import csv
 
 
 def get_cols(file_name):
+
+    f = open(file_name, 'r')
+    text = f.read()
+    text = text[text.index('\n')+1::]
+    f.close()
+
+    heads = []
     with open(file_name, newline='\n') as f:
         reader = csv.reader(f)
         for row in reader:
-            return row
+            heads = row
+            break
+    f = open('data.csv', 'w')
+    f.write(text)
+    return heads
 
 
 if __name__ == "__main__":
