@@ -1,0 +1,11 @@
+{
+    "name": "mymodel/data",
+    "title": "Training Set",
+    "parameters": {"$ref": "cortex/mymodel-data-type"},
+    "connectionName": "cortex/content",
+    "connectionQuery": [
+        {"name": "key", "value": "mymodel/data.csv"},
+        {"name": "contentType", "value": "CSV"},
+        {"name": "csv/delimiter", "value": ","}
+    ]
+}
