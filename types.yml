@@ -1,0 +1,26 @@
+types:
+  - name: cortex/mymodel-train-request
+    camel: 1.0.0
+    title: Train Request
+    parameters:
+      - name: train_args
+        type: object
+  - name: cortex/mymodel-inquire-request
+    camel: 1.0.0
+    title: Inquiry Request
+    parameters:
+      - name: inquiry_args
+        type: object
+  - name: cortex/mymodel-train-response
+    camel: 1.0.0
+    title: Train Response
+    parameters:
+      - name: result
+        type: String
+  - name: cortex/mymodel-inquire-response
+    camel: 1.0.0
+    title: Inquiry Response
+    parameters:
+      - name: result
+        type: object
+
