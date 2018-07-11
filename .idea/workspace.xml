@@ -2,37 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74e71b36-6837-4c9d-8d7a-ecc2f4317bea" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/generic-train.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/check-job.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deploy-all.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deploy-docker.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/my_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/original_data.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/skill.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test-docker.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/inquiry_input_message.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/train_input_message.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training-data-dataset.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training-data-type.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training-job.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/types.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/make_data_type.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/make_test_input_messages.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/.idea/TEST_SET_FINAL_missing_vals.csv" beforeDir="false" afterPath="$PROJECT_DIR$/xgboost/.idea/TEST_SET_FINAL_missing_vals.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/.idea/xgboost.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/0001.model" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/dump.nice.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/dump.raw.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xgboost/xgb.py" beforeDir="false" afterPath="$PROJECT_DIR$/xgboost/xgb.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,8 +16,8 @@
       <file leaf-file-name="xgb.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/xgboost/xgb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1060">
-              <caret line="62" column="53" selection-start-line="62" selection-start-column="53" selection-end-line="62" selection-end-column="53" />
+            <state relative-caret-position="252">
+              <caret line="146" column="35" selection-start-line="146" selection-start-column="35" selection-end-line="146" selection-end-column="35" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -55,20 +25,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="train_test.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/xgboost/train_test.csv">
+      <file leaf-file-name="inquire.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xgboost/inquire.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="21363" column="144" selection-start-line="21363" selection-start-column="144" selection-end-line="21363" selection-end-column="144" />
+            <state relative-caret-position="15">
+              <caret line="1" column="66" selection-start-line="1" selection-start-column="66" selection-end-line="1" selection-end-column="66" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inquire.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/xgboost/inquire.csv">
+      <file leaf-file-name="train_test.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xgboost/train_test.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="221" column="8" selection-start-line="221" selection-start-column="2" selection-end-line="221" selection-end-column="8" />
+            <state relative-caret-position="105">
+              <caret line="7" column="208" selection-start-line="7" selection-start-column="208" selection-end-line="7" selection-end-column="208" />
             </state>
           </provider>
         </entry>
@@ -93,7 +63,6 @@
       <find>feature_names</find>
       <find>headers</find>
       <find>dtrain</find>
-      <find>TEST_FILE</find>
       <find>DMatrix</find>
       <find>get_columns</find>
       <find>xgb</find>
@@ -101,7 +70,9 @@
       <find>model.error</find>
       <find>567051</find>
       <find>model.X_train</find>
+      <find>TEST_FILE</find>
       <find>290621</find>
+      <find>labels</find>
     </findStrings>
     <replaceStrings>
       <replace>xgb</replace>
@@ -118,6 +89,7 @@
         <option value="$PROJECT_DIR$/xgboost/test_no_source.csv" />
         <option value="$PROJECT_DIR$/xgboost/xgb_original.py" />
         <option value="$PROJECT_DIR$/xgboost/xgb.py" />
+        <option value="$PROJECT_DIR$/xgboost/inquire.csv" />
       </list>
     </option>
   </component>
@@ -125,10 +97,10 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="9" />
-    <option name="y" value="26" />
-    <option name="width" value="1671" />
-    <option name="height" value="951" />
+    <option name="x" value="44" />
+    <option name="y" value="45" />
+    <option name="width" value="1875" />
+    <option name="height" value="1057" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -148,12 +120,6 @@
               <item name="lead-evaluator" type="462c0819:PsiDirectoryNode" />
               <item name="xgboost" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="lead-evaluator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lead-evaluator" type="462c0819:PsiDirectoryNode" />
-              <item name="xgboost" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -165,14 +131,14 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/xgboost" />
+      <recent name="$PROJECT_DIR$/xgboost/.idea" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/xgboost" />
       <recent name="$PROJECT_DIR$/xgboost/.idea" />
       <recent name="$PROJECT_DIR$" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/xgboost" />
-      <recent name="$PROJECT_DIR$/xgboost/.idea" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -258,23 +224,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="9" y="26" width="1671" height="951" extended-state="0" />
-    <editor active="true" />
+    <frame x="44" y="45" width="1875" height="1057" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.123030305" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8965517" visible="true" weight="0.10949299" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3290398" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20608899" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.20520833" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.23653395" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.20843092" />
+      <window_info id="Structure" order="3" sideWeight="0.10344828" side_tool="true" visible="true" weight="0.10949299" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.30520833" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2857143" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.123030305" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.123030305" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3290398" />
@@ -284,7 +249,7 @@
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3290398" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.17798595" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.23653395" />
@@ -294,9 +259,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/xgboost/TEST_SET_FINAL.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/xgboost/train_test.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320355">
@@ -513,24 +475,32 @@
     <entry file="file://$PROJECT_DIR$/xgboost/contacts_data.csv" />
     <entry file="file://$PROJECT_DIR$/xgboost/TEST_SET_FINAL.csv" />
     <entry file="file://$PROJECT_DIR$/xgboost/xgb_original.py" />
-    <entry file="file://$PROJECT_DIR$/xgboost/train_test.csv">
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2018.1/python_stubs/-1199943127/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="21363" column="144" selection-start-line="21363" selection-start-column="144" selection-end-line="21363" selection-end-column="144" />
+        <state relative-caret-position="238">
+          <caret line="784" column="8" selection-start-line="784" selection-start-column="8" selection-end-line="784" selection-end-column="8" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/xgboost/train_test.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="208" selection-start-line="7" selection-start-column="208" selection-end-line="7" selection-end-column="208" />
+        </state>
+      </provider>
+      <provider editor-type-id="LargeFileEditor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/xgboost/inquire.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="221" column="8" selection-start-line="221" selection-start-column="2" selection-end-line="221" selection-end-column="8" />
+        <state relative-caret-position="15">
+          <caret line="1" column="66" selection-start-line="1" selection-start-column="66" selection-end-line="1" selection-end-column="66" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/xgboost/xgb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1060">
-          <caret line="62" column="53" selection-start-line="62" selection-start-column="53" selection-end-line="62" selection-end-column="53" />
+        <state relative-caret-position="252">
+          <caret line="146" column="35" selection-start-line="146" selection-start-column="35" selection-end-line="146" selection-end-column="35" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
