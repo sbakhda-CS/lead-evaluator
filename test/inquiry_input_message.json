@@ -7,7 +7,7 @@
   "datasetBindings": [],
   "entityBindings": [],
   "someRandomNewAndUnknownKey": "",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjb2duaXRpdmVzY2FsZS5jb20iLCJhdWQiOiJjb3J0ZXgiLCJzdWIiOiJzYmFraGRhIiwidGVuYW50IjoiY2VudHVyeSIsImFjbCI6eyIuKiI6WyJSRUFEIiwiUlVOIiwiV1JJVEUiLCJERUxFVEUiXX0sImJlYXJlciI6InB1YmxpYyIsImtleSI6Im5EVVdOa1JZQk1RMFpvZ3hNNDFmMXJqRExhWHRla2ltIiwiZXhwIjoxNTMxMTUxNjI2LCJpYXQiOjE1Mjk5NDIwMjZ9.oafbDtaccYwv1Ib0aFeksHgmEm0G-L9NyRYwzmZiPn0",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjb2duaXRpdmVzY2FsZS5jb20iLCJhdWQiOiJjb3J0ZXgiLCJzdWIiOiJzYmFraGRhIiwidGVuYW50IjoiY2VudHVyeSIsImFjbCI6eyIuKiI6WyJSRUFEIiwiUlVOIiwiV1JJVEUiLCJERUxFVEUiXX0sImJlYXJlciI6InB1YmxpYyIsImtleSI6Im5EVVdOa1JZQk1RMFpvZ3hNNDFmMXJqRExhWHRla2ltIiwiZXhwIjoxNTMyNDQzODYwLCJpYXQiOjE1MzEyMzQyNjB9.egu6JeNqAhgf2HUcpARynj_D4f3eKAEasmKi3zJpbbk",
   "apiEndpoint": "https://api.cortex-dev.insights.ai",
   "properties": {
     "daemon.path": "inquire",
