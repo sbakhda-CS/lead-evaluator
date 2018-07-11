@@ -30,13 +30,13 @@ def train(train_data, train_args):
     # split data into labels and non-labels
     for row in train_data[1:]:
         temp = []
-        for x in row[15:]:
+        for x in row[9:]:
             try:
                 temp.append(float(x))
             except:
                 temp.append(float(-999.0))
         # create label based on relevant columns
-        possible_labels = [row[0], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14]]
+        possible_labels = [row[0], row[6], row[7], row[8]]
         labels.append(1 if any(int(label) > 0 for label in possible_labels) else 0)
 
         train_data_new.append(numpy.asarray(temp))
@@ -75,7 +75,7 @@ def inquire(model, inquiry_args):
     inquiry_args = numpy.array(inquiry_args)
 
     # get headers (column titles)
-    headers = inquiry_args[0][15:]
+    headers = inquiry_args[0][9:]
 
     # get ID columns
     contact_ids = inquiry_args[1:, 1]
@@ -83,49 +83,32 @@ def inquire(model, inquiry_args):
     last_names = inquiry_args[1:, 3]
     company_names = inquiry_args[1:, 4]
     job_titles = inquiry_args[1:, 5]
-    YES_meeting = inquiry_args[1:, 9]
-    YES_responded = inquiry_args[1:, 10]
-    NO_not_ready = inquiry_args[1:, 11]
-    NO_not_interested = inquiry_args[1:, 12]
-    NO_not_viable = inquiry_args[1:, 13]
-    NO_no_response = inquiry_args[1:, 14]
 
     inquire_data_new = []
-    scores = numpy.zeros(len(inquiry_args))
     i=0
     # split data into labels and non-labels
     for row in inquiry_args[1:]:
 
         temp = []
-        for x in row[15:]:
+        for x in row[9:]:
             try:
                 temp.append(float(x))
             except:
                 temp.append(float(-999.0))
 
         inquire_data_new.append(numpy.asarray(temp))
-        i += 1
+        i+=1
 
     inquire_data = numpy.asarray(inquire_data_new)
 
-    # make predictions and append to list
+    # make predictions and append predictions & probabilities to lists
     probs = model.modelObject.predict_proba(inquire_data)
     preds = model.modelObject.predict(inquire_data)
     prob_list = []
     for i in range(0, len(probs)):
-        prob = float(probs[i][1])
-        # multiply probability based on flags set by LeaderBoard user
-        flags_negative = [float(YES_meeting[i]), float(NO_not_ready[i]), float(NO_not_interested[i]), \
-                 float(NO_not_viable[i]), float(NO_no_response[i])]
-        flags_positive = [float(YES_responded[i])]
-        if any(flag > 0 for flag in flags_negative):
-            prob *= .001
-        elif any(flag > 0 for flag in flags_positive):
-            prob *= 1000
-        prob_list.append(prob)
+        prob_list.append(float(probs[i][1]))
     pred_list = []
     for i in range(0, len(preds)):
-
         pred_list.append(preds[i])
 
     # prediction function
@@ -181,7 +164,7 @@ if __name__ == "__main__":
     inquiry_args = csv_to_array('inquire.csv')
 
     # inquiry function
-    print(inquire(model, inquiry_args))
+    inquire(model, inquiry_args)
 
     # plot
     show_plot(model)
