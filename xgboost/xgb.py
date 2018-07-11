@@ -25,20 +25,25 @@ def csv_to_array(filename):
 
 # train model
 def train(train_data, train_args):
+
+    # **** TODO: insert formula here for data training (add feedback, pageviews, etc)
     train_data_new = []
     labels = []
-
+    i=0
     # split data into labels and non-labels
     for row in train_data[1:]:
         temp = []
-        for x in row[9:]:
+        for x in row[15:]:
             try:
                 temp.append(float(x))
             except:
                 temp.append(float(-999.0))
-        for label in row[0]:
-            labels.append(label)
+        possible_labels = [row[0], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14]]
+        labels.append(1 if any(int(label) > 0 for label in possible_labels) else 0)
+
         train_data_new.append(numpy.asarray(temp))
+        i+=1
+
 
     train_data = numpy.asarray(train_data_new)
 
@@ -73,7 +78,7 @@ def inquire(model, inquiry_args):
     inquiry_args = numpy.array(inquiry_args)
 
     # get headers (column titles)
-    headers = inquiry_args[0][9:]
+    headers = inquiry_args[0][15:]
 
     # get ID columns
     contact_ids = inquiry_args[1:, 1]
@@ -81,21 +86,29 @@ def inquire(model, inquiry_args):
     last_names = inquiry_args[1:, 3]
     company_names = inquiry_args[1:, 4]
     job_titles = inquiry_args[1:, 5]
+    YES_meeting = inquiry_args[1:, 9]
+    YES_responded = inquiry_args[1:, 10]
+    NO_not_ready = inquiry_args[1:, 11]
+    NO_not_interested = inquiry_args[1:, 12]
+    NO_not_viable = inquiry_args[1:, 13]
+    NO_no_response = inquiry_args[1:, 14]
 
     inquire_data_new = []
-    labels = []
-
+    scores = numpy.zeros(len(inquiry_args))
+    i=0
     # split data into labels and non-labels
     for row in inquiry_args[1:]:
+
         temp = []
-        for x in row[9:]:
+        for x in row[15:]:
             try:
                 temp.append(float(x))
             except:
                 temp.append(float(-999.0))
-        for label in row[0]:
-            labels.append(label)
+
         inquire_data_new.append(numpy.asarray(temp))
+        i += 1
+
     inquire_data = numpy.asarray(inquire_data_new)
 
     # make predictions and append to list
@@ -103,9 +116,18 @@ def inquire(model, inquiry_args):
     preds = model.modelObject.predict(inquire_data)
     prob_list = []
     for i in range(0, len(probs)):
-        prob_list.append(probs[i][1])
+        prob = float(probs[i][1])
+        flags_negative = [float(YES_meeting[i]), float(NO_not_ready[i]), float(NO_not_interested[i]), \
+                 float(NO_not_viable[i]), float(NO_no_response[i])]
+        flags_positive = [float(YES_responded[i])]
+        if any(flag > 0 for flag in flags_negative):
+            prob *= .001
+        elif any(flag > 0 for flag in flags_positive):
+            prob *= 1000
+        prob_list.append(prob)
     pred_list = []
     for i in range(0, len(preds)):
+
         pred_list.append(preds[i])
 
     # prediction function
@@ -121,11 +143,15 @@ def inquire(model, inquiry_args):
         exp = explainer.explain_instance(model.X_train[i], predict_fn_xgb, num_features=len(train_data[0]))
         exp_list = exp.as_list()
         features = []
-        for x in exp_list[:5]:
-            features.append(x[0])
+        for feat in exp_list:
+            if '<=' not in feat[0]:
+                if len(features) < 5:
+                    features.append(feat[0])
+                else:
+                    break
         cur_dict = {'ID': contact_ids[i], 'first_name': first_names[i], 'last_name': last_names[i],\
                     'company': company_names[i], 'job_title': job_titles[i], 'probability': prob_list[i],\
-                    'prediction': pred_list[i], 'features': features}
+                    'features': features}
         ret_list.append(cur_dict)
 
     return ret_list
@@ -160,3 +186,6 @@ if __name__ == "__main__":
 
     # plot
     show_plot(model)
+
+    # TODO: change probabilities for flagged columns
+    # TODO: push train_test file to Github
