@@ -6,7 +6,6 @@ import lime.lime_tabular
 from xgboost import sklearn
 
 class Model(object):
-
     def __init__(self, modelObject, error, X_train):
         self.modelObject = modelObject
         self.error = error
@@ -25,8 +24,6 @@ def csv_to_array(filename):
 
 # train model
 def train(train_data, train_args):
-
-    # **** TODO: insert formula here for data training (add feedback, pageviews, etc)
     train_data_new = []
     labels = []
     i=0
@@ -38,12 +35,12 @@ def train(train_data, train_args):
                 temp.append(float(x))
             except:
                 temp.append(float(-999.0))
+        # create label based on relevant columns
         possible_labels = [row[0], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14]]
         labels.append(1 if any(int(label) > 0 for label in possible_labels) else 0)
 
         train_data_new.append(numpy.asarray(temp))
         i+=1
-
 
     train_data = numpy.asarray(train_data_new)
 
@@ -117,6 +114,7 @@ def inquire(model, inquiry_args):
     prob_list = []
     for i in range(0, len(probs)):
         prob = float(probs[i][1])
+        # multiply probability based on flags set by LeaderBoard user
         flags_negative = [float(YES_meeting[i]), float(NO_not_ready[i]), float(NO_not_interested[i]), \
                  float(NO_not_viable[i]), float(NO_no_response[i])]
         flags_positive = [float(YES_responded[i])]
@@ -144,6 +142,7 @@ def inquire(model, inquiry_args):
         exp_list = exp.as_list()
         features = []
         for feat in exp_list:
+            # add only interpretable features
             if '<=' not in feat[0]:
                 if len(features) < 5:
                     features.append(feat[0])
@@ -178,7 +177,7 @@ if __name__ == "__main__":
     # train function
     model = train(train_data, train_args)
 
-    # inquiry args
+    # inquiry ar
     inquiry_args = csv_to_array('inquire.csv')
 
     # inquiry function
@@ -186,6 +185,3 @@ if __name__ == "__main__":
 
     # plot
     show_plot(model)
-
-    # TODO: change probabilities for flagged columns
-    # TODO: push train_test file to Github
