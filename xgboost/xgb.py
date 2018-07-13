@@ -4,6 +4,8 @@ from matplotlib import pyplot
 import lime
 import lime.lime_tabular
 from xgboost import sklearn
+import datetime
+
 
 class Model(object):
     def __init__(self, modelObject, error, X_train):
@@ -27,6 +29,7 @@ def train(train_data, train_args):
     train_data_new = []
     labels = []
     i=0
+    print(datetime.datetime.utcnow())
     # split data into labels and non-labels
     for row in train_data[1:]:
         temp = []
@@ -115,18 +118,19 @@ def inquire(model, inquiry_args):
     predict_fn_xgb = lambda x: model.modelObject.predict_proba(x)
 
     # feature importance explainer
-    explainer = lime.lime_tabular.LimeTabularExplainer(model.X_train, feature_names=headers, class_names=[0, 1])
+    explainer = lime.lime_tabular.LimeTabularExplainer(inquire_data, feature_names=headers, class_names=[0, 1])
 
     ret_list = []
     # construct return dicts
     # for i in range (0, len(inquire_data)):
     for i in range(0, 5):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
-        exp = explainer.explain_instance(model.X_train[i], predict_fn_xgb, num_features=len(train_data[0]))
+        exp = explainer.explain_instance(inquire_data[i], predict_fn_xgb, num_features=len(inquire_data[0]))
         exp_list = exp.as_list()
+        print(exp_list)
         features = []
         for feat in exp_list:
             # add only interpretable features
-            if '<=' not in feat[0]:
+            if '<=' not in feat[0] and feat[1] > 0.0:
                 if len(features) < 5:
                     features.append(feat[0])
                 else:
@@ -146,6 +150,7 @@ def show_plot(model):
 
 
 if __name__ == "__main__":
+
     # data
     train_data = csv_to_array('train_test.csv')
 
@@ -164,7 +169,7 @@ if __name__ == "__main__":
     inquiry_args = csv_to_array('inquire.csv')
 
     # inquiry function
-    inquire(model, inquiry_args)
+    print(inquire(model, inquiry_args))
 
     # plot
     show_plot(model)
