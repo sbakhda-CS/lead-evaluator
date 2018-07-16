@@ -6,7 +6,6 @@ def get_cols(file_name):
 
     f = open(file_name, 'r')
     text = f.read()
-    text = text[text.index('\n')+1::]
     f.close()
 
     heads = []

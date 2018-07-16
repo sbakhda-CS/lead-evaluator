@@ -38,7 +38,7 @@ class CortexModel(ModelProcess):
     def _fetch_training_data(request, datasets_client):
 
         data = datasets_client.get_stream(request['dataset'])
-        data = [l.split('\t') for l in data.read().decode('utf-8').split('\n')[0:-1]]
+        data = [l.split(',') for l in data.read().decode('utf-8').split('\n')[0:-1]]
 
         return data
 

@@ -1,7 +1,7 @@
 camel: 1.0.0
 name: cortex/myskill
-title: My Model Title
-description: My Model Description
+title: Lead Evaluator
+description: This skill will prioritize leads based on their features
 properties:
   - name: daemon.method
     title: Daemon method
@@ -55,4 +55,3 @@ outputs:
     title: inquiry
     parameters:
       $ref: cortex/mymodel-inquire-response
-

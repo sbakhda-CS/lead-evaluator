@@ -15,9 +15,6 @@
   },
   "payload": {
     "dataset": "mymodel/data",
-    "train_args": {
-      "n_estimators": 100,
-      "min_samples_leaf": 10
-    }
+    "train_args": [6, 0.3, 1, "binary:logistic"]
   }
 }
