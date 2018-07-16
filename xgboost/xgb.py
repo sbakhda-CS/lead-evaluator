@@ -84,6 +84,7 @@ def inquire(model, inquiry_args):
     last_names = inquiry_args[1:, 3]
     company_names = inquiry_args[1:, 4]
     job_titles = inquiry_args[1:, 5]
+    hubspot_scores = inquiry_args[1:, 10]
 
     inquire_data_new = []
     i=0
@@ -138,26 +139,29 @@ def inquire(model, inquiry_args):
                         s = s.replace(' <= -999.00', '')
                         s = "Missing data for " + s
                         features.append(s)
-                    elif '> 50.00' in feat[0]:
-                        s = feat[0]
-                        s = s.replace(' > 50.00', '')
-                        s = "High " + s
-                        features.append(s)
+                    elif 'HubSpot Score' in feat[0]:
+                        if '> 50.00' in feat[0]:
+                            s = feat[0]
+                            s = s.replace(' > 50.00', '')
+                            s = "High " + s + " (" + hubspot_scores[i] + ")"
+                            features.append(s)
+                        else:
+                            features.append("Low HubSpot Score (" + hubspot_scores[i] + ")")
                     elif 'has_finance' in feat[0]:
                         if '<= 0.00' in feat[0]:
-                            features.append('Job title DOES NOT CONTAIN \'Finance\' or Similar')
+                            features.append('Job Title DOES NOT CONTAIN \'Finance\' or similar')
                         else:
-                            features.append('Job title contains \'Finance\' or Similar')
+                            features.append('Job Title contains \'Finance\' or similar')
                     elif 'has_chief' in feat[0]:
                         if '<= 0.00' in feat[0]:
-                            features.append('NOT C-suite Job title')
+                            features.append('NOT C-suite Job Title')
                         else:
-                            features.append('C-suite Job title')
+                            features.append('C-suite Job Title')
                     else:
                         if '<= 0.00' in feat[0]:
                             s = feat[0]
                             s = s.replace(' <= 0.00', '')
-                            s = "NOT industry " + s
+                            s = "NOT Industry " + s
                             features.append(s)
                         elif '> 0.00' in feat[0]:
                             s = feat[0]
