@@ -1,4 +1,10 @@
+'''
+NOT READY AT ALL -- just copied and pasted functions from previous scripts I've used for pre-processing
+'''
+
+
 import pandas as pd
+import re
 
 
 # remove special characters and words that are not in the model's vocabulary
@@ -66,10 +72,6 @@ def one_hot(data):
     onehot_encoded = onehot_encoder.fit_transform(integer_encoded)
 
     return onehot_encoded
-
-
-# converts categorical columns into one-hot-encoded columns
-def make_one_hot_cols(one_hot_cols, df):
 
 
 

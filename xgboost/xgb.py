@@ -4,8 +4,6 @@ from matplotlib import pyplot
 import lime
 import lime.lime_tabular
 from xgboost import sklearn
-import datetime
-
 
 class Model(object):
     def __init__(self, modelObject, error, X_train):
@@ -29,7 +27,7 @@ def train(train_data, train_args):
     train_data_new = []
     labels = []
     i=0
-    print(datetime.datetime.utcnow())
+
     # split data into labels and non-labels
     for row in train_data[1:]:
         temp = []
@@ -123,18 +121,54 @@ def inquire(model, inquiry_args):
     ret_list = []
     # construct return dicts
     # for i in range (0, len(inquire_data)):
-    for i in range(0, 5):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
+    for i in range(0,5):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
         exp = explainer.explain_instance(inquire_data[i], predict_fn_xgb, num_features=len(inquire_data[0]))
         exp_list = exp.as_list()
-        print(exp_list)
+
         features = []
+        exp_list = sorted(exp_list, key=lambda tup: float(tup[1]), reverse=True)
         for feat in exp_list:
-            # add only interpretable features
-            if '<=' not in feat[0] and feat[1] > 0.0:
+            # add only interpretable features in a readable format
+            if feat[1] > 0.0:
                 if len(features) < 5:
-                    features.append(feat[0])
+                    if 'Annual Revenue' in feat[0]:
+                        pass
+                    elif '<= -999.00' in feat[0]:
+                        s = feat[0]
+                        s = s.replace(' <= -999.00', '')
+                        s = "Missing data for " + s
+                        features.append(s)
+                    elif '> 50.00' in feat[0]:
+                        s = feat[0]
+                        s = s.replace(' > 50.00', '')
+                        s = "High " + s
+                        features.append(s)
+                    elif 'has_finance' in feat[0]:
+                        if '<= 0.00' in feat[0]:
+                            features.append('Job title DOES NOT CONTAIN \'Finance\' or Similar')
+                        else:
+                            features.append('Job title contains \'Finance\' or Similar')
+                    elif 'has_chief' in feat[0]:
+                        if '<= 0.00' in feat[0]:
+                            features.append('NOT C-suite Job title')
+                        else:
+                            features.append('C-suite Job title')
+                    else:
+                        if '<= 0.00' in feat[0]:
+                            s = feat[0]
+                            s = s.replace(' <= 0.00', '')
+                            s = "NOT industry " + s
+                            features.append(s)
+                        elif '> 0.00' in feat[0]:
+                            s = feat[0]
+                            s = s.replace(' > 0.00', '')
+                            s = "Industry " + s
+                            features.append(s)
+                        else:
+                            features.append(feat[0])
                 else:
                     break
+
         cur_dict = {'ID': contact_ids[i], 'first_name': first_names[i], 'last_name': last_names[i],\
                     'company': company_names[i], 'job_title': job_titles[i], 'probability': prob_list[i],\
                     'features': features}
@@ -150,7 +184,6 @@ def show_plot(model):
 
 
 if __name__ == "__main__":
-
     # data
     train_data = csv_to_array('train_test.csv')
 
@@ -165,7 +198,7 @@ if __name__ == "__main__":
     # train function
     model = train(train_data, train_args)
 
-    # inquiry ar
+    # inquiry args
     inquiry_args = csv_to_array('inquire.csv')
 
     # inquiry function
