@@ -122,7 +122,7 @@ def inquire(model, inquiry_args):
     ret_list = []
     # construct return dicts
     # for i in range (0, len(inquire_data)):
-    for i in range(0,5):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
+    for i in range(0, 10):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
         exp = explainer.explain_instance(inquire_data[i], predict_fn_xgb, num_features=len(inquire_data[0]))
         exp_list = exp.as_list()
 
@@ -175,7 +175,7 @@ def inquire(model, inquiry_args):
 
         cur_dict = {'ID': contact_ids[i], 'first_name': first_names[i], 'last_name': last_names[i],\
                     'company': company_names[i], 'job_title': job_titles[i], 'probability': prob_list[i],\
-                    'features': features}
+                    'features': features, 'model_accuracy': (1.0-model.error)}
         ret_list.append(cur_dict)
 
     return ret_list
