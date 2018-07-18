@@ -26,20 +26,16 @@ def csv_to_array(filename):
 def train(train_data, train_args):
     train_data_new = []
     labels = []
-    i=0
-
+    i = 0
     # split data into labels and non-labels
     for row in train_data[1:]:
         temp = []
-        for x in row[9:]:
+        for x in row[2:]:
             try:
                 temp.append(float(x))
             except:
                 temp.append(float(-999.0))
-        # create label based on relevant columns
-        possible_labels = [row[0], row[6], row[7], row[8]]
-        labels.append(1 if any(int(label) > 0 for label in possible_labels) else 0)
-
+        labels.append(row[1])
         train_data_new.append(numpy.asarray(temp))
         i+=1
 
@@ -126,9 +122,10 @@ def inquire(model, inquiry_args):
         exp = explainer.explain_instance(inquire_data[i], predict_fn_xgb, num_features=len(inquire_data[0]))
         exp_list = exp.as_list()
 
-        features = []
+        features = ""
         exp_list = sorted(exp_list, key=lambda tup: float(tup[1]), reverse=True)
         for feat in exp_list:
+            print(features)
             # add only interpretable features in a readable format
             if feat[1] > 0.0:
                 if len(features) < 5:
@@ -137,39 +134,39 @@ def inquire(model, inquiry_args):
                     elif '<= -999.00' in feat[0]:
                         s = feat[0]
                         s = s.replace(' <= -999.00', '')
-                        s = "Missing data for " + s
-                        features.append(s)
+                        s = "Missing data for " + s + ", "
+                        features += s
                     elif 'HubSpot Score' in feat[0]:
                         if '> 50.00' in feat[0]:
                             s = feat[0]
                             s = s.replace(' > 50.00', '')
-                            s = "High " + s + " (" + hubspot_scores[i] + ")"
-                            features.append(s)
+                            s = "High " + s + " (" + hubspot_scores[i] + "), "
+                            features += s
                         else:
-                            features.append("Low HubSpot Score (" + hubspot_scores[i] + ")")
+                            features += "Low HubSpot Score (" + hubspot_scores[i] + "), "
                     elif 'has_finance' in feat[0]:
                         if '<= 0.00' in feat[0]:
-                            features.append('Job Title DOES NOT CONTAIN \'Finance\' or similar')
+                            features += "Job Title DOES NOT CONTAIN \'Finance\' or similar, "
                         else:
-                            features.append('Job Title contains \'Finance\' or similar')
+                            features += "Job Title contains \'Finance\' or similar, "
                     elif 'has_chief' in feat[0]:
                         if '<= 0.00' in feat[0]:
-                            features.append('NOT C-suite Job Title')
+                            features += "NOT C-suite Job Title, "
                         else:
-                            features.append('C-suite Job Title')
+                            features += "C-suite Job Title, "
                     else:
                         if '<= 0.00' in feat[0]:
                             s = feat[0]
                             s = s.replace(' <= 0.00', '')
-                            s = "NOT Industry " + s
-                            features.append(s)
+                            s = "NOT Industry " + s + ", "
+                            features += s
                         elif '> 0.00' in feat[0]:
                             s = feat[0]
                             s = s.replace(' > 0.00', '')
-                            s = "Industry " + s
-                            features.append(s)
+                            s = "Industry " + s + ", "
+                            features += s
                         else:
-                            features.append(feat[0])
+                            features += feat[0] + ", "
                 else:
                     break
 
