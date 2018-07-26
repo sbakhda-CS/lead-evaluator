@@ -138,7 +138,7 @@ def inquire(model, inquiry_args):
     ret_list = []
     # construct return dicts
     # for i in range (0, len(inquire_data)):
-    for i in range(0,10):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
+    for i in positives:  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
         features = []
 
         if any(c in str(company_names[i]).upper() for c in healthcare_company_names):
