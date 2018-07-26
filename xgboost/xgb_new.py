@@ -1,15 +1,15 @@
 import numpy, random
 import xgboost as xgb
 from matplotlib import pyplot
-import lime
-import lime.lime_tabular
 from xgboost import sklearn
+
 
 class Model(object):
     def __init__(self, modelObject, error, X_train):
         self.modelObject = modelObject
         self.error = error
         self.X_train = X_train
+
 
 # convert csv file to array for processing
 def csv_to_array(filename):
@@ -22,22 +22,34 @@ def csv_to_array(filename):
             a.append([x for x in row.split(',')])
     return a
 
+
 # train model
 def train(train_data, train_args):
     train_data_new = []
     labels = []
     i = 0
+
     # split data into labels and non-labels
     for row in train_data[1:]:
         temp = []
-        for x in row[2:]:
+        for x in row[9:]:
             try:
                 temp.append(float(x))
             except:
                 temp.append(float(-999.0))
-        labels.append(row[1])
+        # create label based on relevant columns
+        possible_titles = [row[11], row[12]]
+        good_titles = ["VP", "CHIEF", "DIRECTOR", "ANALYST", "CEO", "CIO", "CFO", "CTO", "FINANCE", "FINANCIAL",\
+                       "PRESIDENT", "INNOVATION", "SENIOR", "OFFICER"]
+        good_company_names = ["HOSPITAL", "BANK", "FINANCE", "FINANCIAL", "HEALTH", "HEALTHCARE"]
+        possible_industries = [row[15], row[17], row[19], row[23], row[42], row[55], row[69], row[74], row[116], row[117]]
+        labels.append(1 if (any(int(label) > 0 for label in possible_titles)\
+                            or any(t in str(row[5]).lower() for t in good_titles))\
+                           or (any(int(label) > 0 for label in possible_industries)\
+                                or any(c in str(row[4].lower()) for c in good_company_names)) else 0)
+
         train_data_new.append(numpy.asarray(temp))
-        i+=1
+        i += 1
 
     train_data = numpy.asarray(train_data_new)
 
@@ -52,8 +64,8 @@ def train(train_data, train_args):
     Y_train, Y_test = labels[:train_split], labels[train_split:]
 
     # create XGBClassifier model
-    m = sklearn.XGBClassifier(max_depth=train_args[0], learning_rate=train_args[1], silent=train_args[2],\
-                               objective=train_args[3])
+    m = sklearn.XGBClassifier(max_depth=train_args[0], learning_rate=train_args[1], silent=train_args[2], \
+                              objective=train_args[3])
     # train model
     m.fit(X=X_train, y=Y_train)
 
@@ -83,7 +95,7 @@ def inquire(model, inquiry_args):
     hubspot_scores = inquiry_args[1:, 10]
 
     inquire_data_new = []
-    i=0
+    i = 0
     # split data into labels and non-labels
     for row in inquiry_args[1:]:
 
@@ -95,7 +107,7 @@ def inquire(model, inquiry_args):
                 temp.append(float(-999.0))
 
         inquire_data_new.append(numpy.asarray(temp))
-        i+=1
+        i += 1
 
     inquire_data = numpy.asarray(inquire_data_new)
 
@@ -109,70 +121,27 @@ def inquire(model, inquiry_args):
     for i in range(0, len(preds)):
         pred_list.append(preds[i])
 
-    # prediction function
-    predict_fn_xgb = lambda x: model.modelObject.predict_proba(x)
+    good_titles = ["VP", "CHIEF", "DIRECTOR", "ANALYST", "CEO", "CIO", "CFO", "CTO", "FINANCE", "FINANCIAL",\
+                   "PRESIDENT", "INNOVATION", "SENIOR", "OFFICER"]
+    good_company_names = ["HOSPITAL", "BANK", "FINANCE", "FINANCIAL", "HEALTH", "HEALTHCARE"]
 
-    # feature importance explainer
-    explainer = lime.lime_tabular.LimeTabularExplainer(inquire_data, feature_names=headers, class_names=[0, 1])
 
     ret_list = []
     # construct return dicts
     # for i in range (0, len(inquire_data)):
-    for i in range(0, 10):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
-        exp = explainer.explain_instance(inquire_data[i], predict_fn_xgb, num_features=len(inquire_data[0]))
-        exp_list = exp.as_list()
+    for i in range(0,10):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
+        features = []
 
-        features = ""
-        exp_list = sorted(exp_list, key=lambda tup: float(tup[1]), reverse=True)
-        for feat in exp_list:
-            print(features)
-            # add only interpretable features in a readable format
-            if feat[1] > 0.0:
-                if len(features) < 5:
-                    if 'Annual Revenue' in feat[0]:
-                        pass
-                    elif '<= -999.00' in feat[0]:
-                        s = feat[0]
-                        s = s.replace(' <= -999.00', '')
-                        s = "Missing data for " + s + ", "
-                        features += s
-                    elif 'HubSpot Score' in feat[0]:
-                        if '> 50.00' in feat[0]:
-                            s = feat[0]
-                            s = s.replace(' > 50.00', '')
-                            s = "High " + s + " (" + hubspot_scores[i] + "), "
-                            features += s
-                        else:
-                            features += "Low HubSpot Score (" + hubspot_scores[i] + "), "
-                    elif 'has_finance' in feat[0]:
-                        if '<= 0.00' in feat[0]:
-                            features += "Job Title DOES NOT CONTAIN \'Finance\' or similar, "
-                        else:
-                            features += "Job Title contains \'Finance\' or similar, "
-                    elif 'has_chief' in feat[0]:
-                        if '<= 0.00' in feat[0]:
-                            features += "NOT C-suite Job Title, "
-                        else:
-                            features += "C-suite Job Title, "
-                    else:
-                        if '<= 0.00' in feat[0]:
-                            s = feat[0]
-                            s = s.replace(' <= 0.00', '')
-                            s = "NOT Industry " + s + ", "
-                            features += s
-                        elif '> 0.00' in feat[0]:
-                            s = feat[0]
-                            s = s.replace(' > 0.00', '')
-                            s = "Industry " + s + ", "
-                            features += s
-                        else:
-                            features += feat[0] + ", "
-                else:
-                    break
+        if any(c in str(company_names[i]).upper() for c in good_company_names):
+            features.append("Industry: Health, financial services, or retail")
+        elif any(t in str(job_titles[i]).upper() for t in good_titles):
+            features.append("Decision-making job title")
+        elif prob_list[i] > 0.5:
+            features.append("Industry: Health, financial services, or retail")
 
-        cur_dict = {'ID': contact_ids[i], 'first_name': first_names[i], 'last_name': last_names[i],\
-                    'company': company_names[i], 'job_title': job_titles[i], 'probability': prob_list[i],\
-                    'features': features, 'model_accuracy': (1.0-model.error)}
+        cur_dict = {'ID': contact_ids[i], 'first_name': first_names[i], 'last_name': last_names[i], \
+                    'company': company_names[i], 'job_title': job_titles[i], 'probability': prob_list[i], \
+                    'features': features}
         ret_list.append(cur_dict)
 
     return ret_list
