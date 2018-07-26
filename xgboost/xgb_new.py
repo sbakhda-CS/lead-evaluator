@@ -114,9 +114,13 @@ def inquire(model, inquiry_args):
     # make predictions and append predictions & probabilities to lists
     probs = model.modelObject.predict_proba(inquire_data)
     preds = model.modelObject.predict(inquire_data)
+
+    positives = []
     prob_list = []
     for i in range(0, len(probs)):
         prob_list.append(float(probs[i][1]))
+        if float(probs[i][1]) >= 0.5:
+            positives.append(i)
     pred_list = []
     for i in range(0, len(preds)):
         pred_list.append(preds[i])
@@ -125,19 +129,18 @@ def inquire(model, inquiry_args):
                    "PRESIDENT", "INNOVATION", "SENIOR", "OFFICER"]
     good_company_names = ["HOSPITAL", "BANK", "FINANCE", "FINANCIAL", "HEALTH", "HEALTHCARE"]
 
-
     ret_list = []
     # construct return dicts
     # for i in range (0, len(inquire_data)):
-    for i in range(0,10):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
+    for i in positives:  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
         features = []
 
         if any(c in str(company_names[i]).upper() for c in good_company_names):
-            features.append("Industry: Health, financial services, or retail")
-        elif any(t in str(job_titles[i]).upper() for t in good_titles):
-            features.append("Decision-making job title")
+            features.append("Industry: health, financial services, or retail")
+        if any(t in str(job_titles[i]).upper() for t in good_titles):
+            features.append("Job title: decision-making")
         elif prob_list[i] > 0.5:
-            features.append("Industry: Health, financial services, or retail")
+            features.append("Industry: health, financial services, or retail")
 
         cur_dict = {'ID': contact_ids[i], 'first_name': first_names[i], 'last_name': last_names[i], \
                     'company': company_names[i], 'job_title': job_titles[i], 'probability': prob_list[i], \
