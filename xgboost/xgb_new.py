@@ -40,8 +40,9 @@ def train(train_data, train_args):
         # create label based on relevant columns
         possible_titles = [row[11], row[12]]
         good_titles = ["VP", "CHIEF", "DIRECTOR", "ANALYST", "CEO", "CIO", "CFO", "CTO", "FINANCE", "FINANCIAL",\
-                       "PRESIDENT", "INNOVATION", "SENIOR", "OFFICER"]
-        good_company_names = ["HOSPITAL", "BANK", "FINANCE", "FINANCIAL", "HEALTH", "HEALTHCARE"]
+                       "PRESIDENT", "INNOVATION", "SENIOR", "OFFICER", "INNOVATIVE", "ANALYSIS"]
+        good_company_names = ["HOSPITAL", "BANK", "FINANCE", "FINANCIAL", "HEALTH", "HEALTHCARE", "RETAIL", "APPAREL",\
+                              "INVESTMENT", "INVESTING"]
         possible_industries = [row[15], row[17], row[19], row[23], row[42], row[55], row[69], row[74], row[116], row[117]]
         labels.append(1 if (any(int(label) > 0 for label in possible_titles)\
                             or any(t in str(row[5]).lower() for t in good_titles))\
@@ -125,27 +126,43 @@ def inquire(model, inquiry_args):
     for i in range(0, len(preds)):
         pred_list.append(preds[i])
 
-    good_titles = ["VP", "CHIEF", "DIRECTOR", "ANALYST", "CEO", "CIO", "CFO", "CTO", "FINANCE", "FINANCIAL",\
-                   "PRESIDENT", "INNOVATION", "SENIOR", "OFFICER"]
-    good_company_names = ["HOSPITAL", "BANK", "FINANCE", "FINANCIAL", "HEALTH", "HEALTHCARE"]
+    healthcare_company_names = ["HOSPITAL", "HEALTH", "HEALTHCARE"]
+    financial_company_names = ["BANK", "FINANCE", "FINANCIAL", "INVESTMENT", "INVESTING", "BANKING"]
+    retail_company_names = ["RETAIL", "APPAREL"]
+
+    decision_titles = ["VP", "CHIEF", "CEO", "CIO", "CFO", "CTO", "PRESIDENT", "SENIOR", "OFFICER", "DIRECTOR"]
+    financial_titles = ["CFO", "FINANCE", "FINANCIAL"]
+    innovation_titles = ["INNOVATION", "INNOVATIVE"]
+    analyst_titles = ["ANALYST", "ANALYSIS"]
 
     ret_list = []
     # construct return dicts
     # for i in range (0, len(inquire_data)):
-    for i in positives:  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
+    for i in range(0,10):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
         features = []
 
-        if any(c in str(company_names[i]).upper() for c in good_company_names):
-            features.append("Industry: health, financial services, or retail")
-        if any(t in str(job_titles[i]).upper() for t in good_titles):
+        if any(c in str(company_names[i]).upper() for c in healthcare_company_names):
+            features.append("Industry: healthcare")
+        if any(c in str(company_names[i]).upper() for c in financial_company_names):
+            features.append("Industry: financial services")
+        if any(c in str(company_names[i]).upper() for c in retail_company_names):
+            features.append("Industry: retail")
+        if any(t in str(job_titles[i]).upper() for t in decision_titles):
             features.append("Job title: decision-making")
-        elif prob_list[i] > 0.5:
-            features.append("Industry: health, financial services, or retail")
+        if any(t in str(job_titles[i]).upper() for t in financial_titles):
+            features.append("Job title: finance")
+        if any(t in str(job_titles[i]).upper() for t in innovation_titles):
+            features.append("Job title: innovation")
+        if any(t in str(job_titles[i]).upper() for t in analyst_titles):
+            features.append("Job title: analyst")
+        elif prob_list[i] > 0.5 and len(features) == 0:
+            features.append("Industry: healthcare, financial services, or retail")
 
         cur_dict = {'ID': contact_ids[i], 'first_name': first_names[i], 'last_name': last_names[i], \
                     'company': company_names[i], 'job_title': job_titles[i], 'probability': prob_list[i], \
                     'features': features}
         ret_list.append(cur_dict)
+        print(cur_dict)
 
     return ret_list
 
