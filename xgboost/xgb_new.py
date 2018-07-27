@@ -32,7 +32,7 @@ def train(train_data, train_args):
     # split data into labels and non-labels
     for row in train_data[1:]:
         temp = []
-        for x in row[9:]:
+        for x in row[2:]:
             try:
                 temp.append(float(x))
             except:
@@ -138,7 +138,7 @@ def inquire(model, inquiry_args):
     ret_list = []
     # construct return dicts
     # for i in range (0, len(inquire_data)):
-    for i in positives:  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
+    for i in range (0,10):  # changed to only first 5 dicts to run quickly. revert to line above to return entire inquiry
         features = []
 
         if any(c in str(company_names[i]).upper() for c in healthcare_company_names):
@@ -160,9 +160,8 @@ def inquire(model, inquiry_args):
 
         cur_dict = {'ID': contact_ids[i], 'first_name': first_names[i], 'last_name': last_names[i], \
                     'company': company_names[i], 'job_title': job_titles[i], 'probability': prob_list[i], \
-                    'features': features}
+                    'features': features, 'model_accuracy': (1.0-model.error)}
         ret_list.append(cur_dict)
-        print(cur_dict)
 
     return ret_list
 
